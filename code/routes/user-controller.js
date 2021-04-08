@@ -122,7 +122,7 @@ router.post("/confirm-email",
       .catch(error => next(error));
   });
 
-router.post("/resend-confirm-code",
+router.post("/resend-confirm-email",
   [
     BruteForce(20),
     body("email")
@@ -133,7 +133,7 @@ router.post("/resend-confirm-code",
   ],
   (request, response, next) => {
     const email = request.values.email;
-    User.resendConfirmCode(email, true)
+    User.resendConfirmEmail(email)
       .then(results => {
         return response.status(200).json({
           code: 3,
