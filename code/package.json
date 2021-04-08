@@ -1,0 +1,24 @@
+{
+  "name": "openaudit-backend-main",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "startLocal": ". ../../Shared/setLocalEnv.sh && ENVIRONMENT=LOCAL NODE_ENV=development nodemon ./bin/www"
+  },
+  "dependencies": {
+    "connect-redis": "^5.1.0",
+    "debug": "^4.3.1",
+    "disposable-email-domains": "^1.0.57",
+    "express": "~4.16.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.10.0",
+    "express-winston": "^4.1.0",
+    "fs-extra": "^7.0.1",
+    "helmet": "^4.4.1",
+    "http-errors": "~1.6.3",
+    "link-preview-js": "^2.1.6",
+    "shared": "file:../../shared",
+    "winston": "^3.3.3"
+  }
+}
