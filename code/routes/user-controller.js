@@ -288,7 +288,7 @@ router.post("/forgot-password",
 ],
 (request, response, next) => {
   const email = request.values.email;
-  User.generatePasswordReset(email, lockdown)
+  User.generatePasswordReset(email)
     .then( result => {
       return response.status(200).json({
         message: "If there is an account associated with that email, a password reset email will be sent to it.",
