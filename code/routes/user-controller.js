@@ -329,6 +329,39 @@ router.post("/reset-password",
     .catch(error => { next(error); });
 });
 
+router.post("/change-password",
+[
+  BruteForce(20),
+  authenticate.checkAndSetUser,
+  body("currentPassword")
+    .exists().withMessage("Missing current password.")
+    .not().isEmpty().withMessage("Missing current password.")
+    .custom((value, {req, location, path}) => {
+      return req.user.assertPassword(value)
+      .catch( error => Promise.reject())
+    }).withMessage("Current password is incorrect."),
+  body("newPassword")
+    .exists().withMessage("Missing new password.")
+    .not().isEmpty().withMessage("Missing new password.")
+    .custom(value => {
+      passwordRules(value);
+      return value;
+    }),
+  ValidateCheck
+],
+(request, response, next) => {
+  const currentPassword = request.values.currentPassword;
+  const newPassword = request.values.newPassword;
+  return request.user.changePassword(currentPassword, newPassword)
+    .then( success => {
+      return response.status(200).json({
+        message: "New password set successfully.",
+        code: 7
+      });
+    })
+    .catch(error => { next(error); });
+});
+
 /*********************************************
  *
  * Do Not Email
