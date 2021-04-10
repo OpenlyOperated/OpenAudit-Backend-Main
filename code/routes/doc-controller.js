@@ -200,6 +200,10 @@ router.post("/update",
     .not().isEmpty().withMessage("Missing id.")
     .isAlphanumeric().withMessage("ID should be alphanumeric."),
   body("title"),
+  body("url")
+    .trim()
+    .optional({ checkFalsy: true })
+    .isURL().withMessage("URL is invalid. Either remove the URL or enter a valid one"),
   body("content")
     .exists().withMessage("Missing content.")
     .not().isEmpty().withMessage("Missing content.")
@@ -217,6 +221,7 @@ router.post("/update",
 (request, response, next) => {
   const id = request.values.id;
   const title = request.values.title;
+  const url = request.values.url;
   const content = request.values.content;
   const visibility = request.values.visibility;
   const allowAudit = request.values.allowAudit;
@@ -225,7 +230,7 @@ router.post("/update",
     throw new AppError(400, 993, "Cannot set allowAudit to true if document visibility is private.")
   }
 
-  return Doc.update(id, title, content, request.user.id, visibility, allowAudit)
+  return Doc.update(id, title, content, request.user.id, visibility, allowAudit, url)
   .then(doc => {
     return response.status(200).json(doc);
   })
