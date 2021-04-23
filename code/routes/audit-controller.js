@@ -121,7 +121,7 @@ router.post("/list",
 ],
 (request, response, next) => {
 
-  return Audit.listPublic(request.user.id)
+  return Audit.listNonPrivate(request.user.id)
   .then(audits => {
     return response.status(200).json(audits);
   })
