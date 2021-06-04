@@ -74,9 +74,7 @@ router.post('/preview',
     }
   })
   .catch( error => {
-    response.status(400).json({
-      message: error
-    });
+    response.send(toReturnIfHeadFails)
   })
 
 });
